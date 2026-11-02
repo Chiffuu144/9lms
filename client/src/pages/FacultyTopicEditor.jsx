@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { CheckCircle2, FileText, GripVertical, Image, Plus, Save, Trash2, Upload } from 'lucide-react';
+import { CheckCircle2, FileText, GripVertical, Image, Plus, Save, Sparkles, Trash2, Upload } from 'lucide-react';
 import { api } from '../utils/api';
 import { useToast } from '../context/ToastContext';
 
@@ -22,6 +22,8 @@ const emptyTopic = (subjectId, topicNumber) => ({
   uploadedFileName: '',
   customSlides: [],
   summary: '',
+  selfAssessmentPrompt: '',
+  selfAssessmentAnswer: 'True',
   isVerifiedComplete: false,
 });
 
@@ -63,6 +65,12 @@ export default function FacultyTopicEditor() {
   }, [id, topicNum]);
 
   const update = (key, value) => setTopic(current => ({ ...current, [key]: value }));
+  const generateSummary = () => {
+    const text = new DOMParser().parseFromString(topic.richTextContent || '', 'text/html').body.textContent.replace(/\s+/g, ' ').trim();
+    if (!text) return;
+    const sentences = text.match(/[^.!?]+[.!?]?/g) || [text];
+    update('summary', sentences.slice(0, 3).join(' ').trim().slice(0, 600));
+  };
   const updateSlide = (key, value) => {
     setTopic(current => ({
       ...current,
@@ -168,7 +176,7 @@ export default function FacultyTopicEditor() {
         <section className="report-card slide-workspace">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div><span className="eyebrow">Make your own slides</span><h2 className="section-title">Custom slide builder</h2></div>
-            <button type="button" className="btn-secondary" onClick={addSlide}><Plus size={16} /> Add slide</button>
+            <button type="button" className="btn-secondary" onClick={addSlide} disabled={topic.customSlides.length >= 50}><Plus size={16} /> Add slide</button>
           </div>
           <div className="slide-workspace-layout">
             <aside className="slide-thumbnails" aria-label="Presentation slides">
@@ -195,9 +203,21 @@ export default function FacultyTopicEditor() {
         </section>
 
         <section className="report-card space-y-4">
-          <span className="eyebrow">Summary</span>
-          <h2 className="section-title">Lesson takeaway</h2>
+          <div className="flex flex-wrap items-center justify-between gap-3"><div><span className="eyebrow">Summary</span><h2 className="section-title">Lesson takeaway</h2></div><button type="button" className="btn-secondary" onClick={generateSummary} disabled={!topic.richTextContent.trim()}><Sparkles size={16}/> Generate from lesson notes</button></div>
           <textarea className="field min-h-32" value={topic.summary} onChange={event => update('summary', event.target.value)} placeholder="Write the key takeaway for students." />
+          <p className="text-xs text-slate-500">The generated text is a starting point. Review and edit it before saving.</p>
+        </section>
+        <section className="report-card space-y-4">
+          <span className="eyebrow">Quiz prerequisite</span>
+          <h2 className="section-title">True/False self-assessment</h2>
+          <p className="text-sm text-slate-600">Students must answer this check correctly before the topic quiz becomes available.</p>
+          <textarea className="field" value={topic.selfAssessmentPrompt} onChange={event => update('selfAssessmentPrompt', event.target.value)} placeholder="Write a statement students can evaluate as True or False." required />
+          <label className="grid gap-2 text-sm font-semibold">Correct answer
+            <select className="field" value={topic.selfAssessmentAnswer} onChange={event => update('selfAssessmentAnswer', event.target.value)}>
+              <option value="True">True</option>
+              <option value="False">False</option>
+            </select>
+          </label>
         </section>
         <section className="flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-amber-200 bg-amber-50 p-5">
           <label className="flex items-center gap-3 font-semibold text-slate-800"><input type="checkbox" checked={topic.isVerifiedComplete} onChange={event => update('isVerifiedComplete', event.target.checked)} /> Mark as verified complete [TRUE]</label>

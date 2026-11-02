@@ -4,7 +4,14 @@
 .scroll-reveal.active { opacity:1; transform:none; }
 .profile-page *, .roadmap * { animation:none!important; }
 @media (prefers-reduced-motion: reduce) { .scroll-reveal,.scroll-reveal.active { opacity:1; transform:none; transition:none; will-change:auto; } }
-@media print { .print-hidden { display:none!important; } body { background:white!important; } }
+@media print {
+  .print-hidden,.nav-shell,.toast-region { display:none!important; }
+  body { background:white!important; }
+  .page-shell { max-width:none!important; padding:0!important; }
+  .report-card { break-inside:avoid; border:0!important; box-shadow:none!important; padding:0!important; }
+  .report-table { font-size:9pt; }
+  .report-table th,.report-table td { padding:5px 7px!important; }
+}
 .prose h1,.prose h2,.prose h3 { color:#800000; font-weight:700; }
 .btn-gold { @apply inline-flex items-center gap-2 bg-tup-gold text-tup-crimson px-6 py-3 rounded-full font-bold; }
 .page-shell { @apply max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12; }
@@ -16,14 +23,14 @@
 .eyebrow { @apply text-[11px] font-bold uppercase tracking-[.18em] text-tup-gold; }
 .section-title { @apply text-xl sm:text-2xl font-extrabold text-slate-900; }
 .status-pill { @apply rounded-full bg-tup-crimson/10 px-3 py-1 text-xs font-bold text-tup-crimson; }
-.roadmap { @apply grid gap-0 md:grid-cols-6; }
-.roadmap-item { @apply relative flex gap-4 md:block md:px-2; }
-.roadmap-node { @apply relative z-10 flex h-11 w-11 shrink-0 items-center justify-center rounded-full border-2 border-slate-200 bg-white font-bold text-slate-400 shadow-sm; }
+.roadmap { @apply flex gap-0 overflow-x-auto pb-3; scroll-snap-type:x proximity; }
+.roadmap-item { @apply relative block w-48 shrink-0 px-2; scroll-snap-align:start; }
+.roadmap-node { @apply relative z-10 mx-auto flex h-11 w-11 items-center justify-center rounded-full border-2 border-slate-200 bg-white font-bold text-slate-400 shadow-sm; }
 .roadmap-node.is-unlocked { @apply border-tup-crimson text-tup-crimson shadow-[0_0_0_4px_rgba(128,0,0,.07)]; }
 .roadmap-node.is-complete { @apply border-tup-gold bg-tup-gold text-tup-crimson; animation:none; }
-.roadmap-line { @apply absolute left-[21px] top-11 h-10 w-0.5 bg-slate-200 md:left-[calc(50%+20px)] md:top-[22px] md:h-0.5 md:w-[calc(100%-20px)]; }
+.roadmap-line { @apply absolute left-[calc(50%+22px)] top-[22px] h-0.5 w-[calc(100%-22px)] bg-slate-200; }
 .roadmap-line.is-complete { @apply bg-tup-gold; }
-.roadmap-copy { @apply pb-8 md:pt-4; }
+.roadmap-copy { @apply pb-2 pt-4; }
 .roadmap-copy h3 { @apply mt-1 font-bold text-slate-900; }
 .roadmap-copy p { @apply mt-1 text-sm leading-relaxed text-slate-500; }
 .topic-link { @apply mt-3 inline-flex items-center gap-1 text-sm font-bold text-tup-crimson hover:gap-2; }

@@ -10,6 +10,7 @@ export default function Quiz(){
   const reduceMotion=useReducedMotion();
   const[quiz,setQuiz]=useState(null);
   const[topic,setTopic]=useState(null);
+  const[attemptId,setAttemptId]=useState('');
   const[answers,setAnswers]=useState({});
   const[seconds,setSeconds]=useState(0);
   const[result,setResult]=useState(null);
@@ -27,13 +28,14 @@ export default function Quiz(){
     setLoading(true);
     setQuiz(null);
     setTopic(null);
+    setAttemptId('');
     setAnswers({});
     setResult(null);
     setError('');
     submittedRef.current=false;
 
     Promise.all([api(`/topics?subjectId=${id}`),api(`/quizzes?subjectId=${id}`)])
-      .then(([topics,quizzes])=>{
+      .then(async([topics,quizzes])=>{
         if(!active)return;
         const current=topics.topics.find(item=>String(item.topicNumber)===topicNum);
         if(!current){
@@ -45,10 +47,14 @@ export default function Quiz(){
           setError('A quiz has not been published for this topic yet.');
           return;
         }
-        const duration=Math.max(1,Number(currentQuiz.timeLimit)||600);
+        const attempt=await api(`/quizzes/${currentQuiz._id}/start`,{method:'POST',body:JSON.stringify({})});
+        if(!active)return;
+        const duration=Math.max(1,Number(attempt.timeLimit)||Number(currentQuiz.timeLimit)||600);
+        const elapsed=Math.max(0,Math.floor((Date.now()-new Date(attempt.startedAt).getTime())/1000));
         durationRef.current=duration;
-        secondsRef.current=duration;
-        setSeconds(duration);
+        secondsRef.current=Math.max(0,duration-elapsed);
+        setSeconds(secondsRef.current);
+        setAttemptId(attempt.attemptId);
         setTopic(current);
         setQuiz(currentQuiz);
       })
@@ -59,7 +65,7 @@ export default function Quiz(){
   },[id,topicNum]);
 
   const submit=useCallback(async()=>{
-    if(!quiz||!topic||submittedRef.current)return;
+    if(!quiz||!topic||!attemptId||submittedRef.current)return;
     submittedRef.current=true;
     setSubmitting(true);
     try{
@@ -67,6 +73,7 @@ export default function Quiz(){
         method:'POST',
         body:JSON.stringify({
           quizId:quiz._id,
+          attemptId,
           answers:answersRef.current,
           timeTaken:durationRef.current-secondsRef.current
         })
@@ -78,7 +85,7 @@ export default function Quiz(){
     }finally{
       setSubmitting(false);
     }
-  },[quiz,topic]);
+  },[quiz,topic,attemptId]);
 
   useEffect(()=>{
     if(!quiz||result||error)return undefined;
@@ -120,7 +127,7 @@ export default function Quiz(){
   </motion.label>;
 
   if(loading)return <main className="page-shell"><div className="skeleton h-10 w-2/3"/><div className="skeleton h-64 mt-6"/></main>;
-  if(error)return <main className="page-shell"><div className="error-card flex flex-col items-center justify-center gap-3"><AlertCircle size={18}/><span>{error}</span><Link className="topic-link" to={`/subjects/${id}`}>Return to roadmap</Link></div></main>;
+  if(error)return <main className="page-shell"><div className="error-card flex flex-col items-center justify-center gap-3" role="alert"><AlertCircle size={18}/><span>{error}</span><Link className="topic-link" to={`/subjects/${id}/topic/${topicNum}/view`}>Return to topic</Link></div></main>;
   if(result)return <main className="page-shell"><section className={`result-card ${result.passed?'passed':'failed'}`}>
     {result.passed?<CheckCircle2 size={48}/>:<AlertCircle size={48}/>}
     <span className="eyebrow text-current">Topic {topicNum} result</span>
@@ -135,7 +142,7 @@ export default function Quiz(){
   const progress=(seconds/durationRef.current)*100;
   return <main className="page-shell">
     <header className="hero-card mb-6"><div className="flex flex-wrap items-center justify-between gap-6">
-      <div><span className="eyebrow">Knowledge check · Topic {topicNum}</span><h1>{quiz.title}</h1><p>{quiz.questions?.length||quiz.questionCount} questions · Passing score {quiz.passingScore??75}%</p></div>
+      <div><span className="eyebrow">Knowledge check · Topic {topicNum}</span><h1>{quiz.title}</h1><p>{quiz.questions?.length||quiz.questionCount} questions · 75% required to pass</p></div>
       <div className="flex items-center gap-3"><div className="quiz-timer-ring" style={{'--timer-progress':`${progress}%`}}><span>{formatted}</span></div><span className="hidden text-sm text-white/70 sm:block">Time remaining</span></div>
     </div></header>
     <form className="space-y-5" onSubmit={event=>{event.preventDefault();submit();}}>

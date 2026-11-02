@@ -7,11 +7,11 @@ import {useAuth} from '../context/AuthContext';
 function Field({label,required=true,...props}){return <label className="auth-field-label">{label}<input {...props} className="auth-field" required={required}/></label>;}
 
 export function Login(){
-  const {login}=useAuth(); const nav=useNavigate(); const [form,setForm]=useState({email:'',password:''}); const [error,setError]=useState('');
+  const {login}=useAuth(); const nav=useNavigate(); const [form,setForm]=useState({username:'',password:''}); const [error,setError]=useState('');
   return <AuthCard eyebrow="Welcome back" title={<>Ready to keep<br/><em>learning?</em></>} subtitle="Sign in to continue your TUP learning journey.">
-    <form className="auth-form" onSubmit={async event=>{event.preventDefault();setError('');try{const user=await login(form.email,form.password);nav(user.role==='student'?'/student/dashboard':'/faculty/dashboard');}catch(err){setError(err.message);}}}>
-      <Field label="Email address" type="email" value={form.email} onChange={event=>setForm({...form,email:event.target.value})}/>
-      <Field label="Password" type="password" value={form.password} onChange={event=>setForm({...form,password:event.target.value})}/>
+    <form className="auth-form" onSubmit={async event=>{event.preventDefault();setError('');try{const user=await login(form.username,form.password);nav(user.role==='student'?'/student/dashboard':'/faculty/dashboard');}catch(err){setError(err.message);}}}>
+      <Field label="Username or email" type="text" autoComplete="username" value={form.username} onChange={event=>setForm({...form,username:event.target.value})}/>
+      <Field label="Password" type="password" autoComplete="current-password" value={form.password} onChange={event=>setForm({...form,password:event.target.value})}/>
       {error&&<p className="auth-error">{error}</p>}
       <button className="auth-submit" type="submit">Sign in <ArrowRight size={17}/></button>
     </form>
@@ -25,10 +25,11 @@ export function Register(){
   const submit=async event=>{event.preventDefault();setError('');try{const body=new FormData();Object.entries(form).forEach(([key,value])=>body.append(key,value||''));if(image)body.append('profileImage',image);await api('/auth/register',{method:'POST',body});nav('/login');}catch(err){setError(err.message);}};
   return <AuthCard eyebrow="Join the community" title={<>Build your next<br/><em>chapter.</em></>} subtitle="Create your account and start learning with GROUP9.">
     <form className="auth-form register-form" onSubmit={submit}>
-      <div className="auth-role-toggle"><button type="button" className={form.role==='student'?'active':''} onClick={()=>set('role','student')}>Student</button><button type="button" className={form.role==='faculty'?'active':''} onClick={()=>set('role','faculty')}>Faculty</button></div>
+      <div className="auth-role-toggle"><button type="button" className={form.role==='student'?'active':''} onClick={()=>set('role','student')}>Primary learner</button><button type="button" className={form.role==='faculty'?'active':''} onClick={()=>set('role','faculty')}>Faculty</button></div>
       <Field label="Full name" value={form.fullName||''} onChange={event=>set('fullName',event.target.value)}/>
+      <Field label="Username" autoComplete="username" minLength={3} maxLength={30} pattern="[A-Za-z0-9._-]+" value={form.username||''} onChange={event=>set('username',event.target.value)}/>
       <Field label="Email address" type="email" value={form.email||''} onChange={event=>set('email',event.target.value)}/>
-      <Field label="Password" type="password" value={form.password||''} onChange={event=>set('password',event.target.value)}/>
+      <Field label="Password (at least 8 characters)" type="password" autoComplete="new-password" minLength={8} value={form.password||''} onChange={event=>set('password',event.target.value)}/>
       {form.role==='student'?<div className="auth-two-fields"><Field label="Year level" value={form.yearLevel||''} onChange={event=>set('yearLevel',event.target.value)}/><Field label="Section" value={form.section||''} onChange={event=>set('section',event.target.value)}/></div>:<Field label="Department" value={form.department||''} onChange={event=>set('department',event.target.value)}/>}
       <Field label="Profile image (optional)" type="file" accept="image/*" required={false} onChange={event=>setImage(event.target.files?.[0]||null)}/>
       {error&&<p className="auth-error">{error}</p>}
@@ -40,7 +41,7 @@ export function Register(){
 
 function AuthCard({eyebrow,title,subtitle,children}){
   return <main className="auth-page"><section className="auth-shell">
-    <div className="auth-visual"><div className="auth-visual-top"><span className="auth-logo"><GraduationCap size={19}/></span><b>GROUP9</b></div><div className="auth-visual-copy"><span className="auth-overline"><Sparkles size={13}/> TUP learning hub</span><h2>Learn with purpose.<br/><em>Grow with confidence.</em></h2><p>A focused space for lessons, practice, and progress—made for TUP students.</p></div><div className="auth-visual-art"><img src={`${import.meta.env.BASE_URL}student-learning.svg`} alt="Student learning illustration"/><span className="auth-float-card"><ShieldCheck size={16}/> Your progress, protected</span></div><div className="auth-visual-footer"><span>01</span><i/><span>06 topics · one learning journey</span></div></div>
+    <div className="auth-visual"><div className="auth-visual-top"><span className="auth-logo"><GraduationCap size={19}/></span><b>GROUP9</b></div><div className="auth-visual-copy"><span className="auth-overline"><Sparkles size={13}/> TUP learning hub</span><h2>Learn with purpose.<br/><em>Grow with confidence.</em></h2><p>A focused space for lessons, practice, and progress—made for TUP primary learners.</p></div><div className="auth-visual-art"><img src={`${import.meta.env.BASE_URL}student-learning.svg`} alt="Student learning illustration"/><span className="auth-float-card"><ShieldCheck size={16}/> Your progress, protected</span></div><div className="auth-visual-footer"><span>01</span><i/><span>One topic at a time</span></div></div>
     <div className="auth-form-panel"><div className="auth-form-heading"><span className="auth-overline dark">{eyebrow}</span><h1>{title}</h1><p>{subtitle}</p></div>{children}</div>
   </section></main>;
 }
