@@ -6,6 +6,7 @@ import {api,exportRowsToCsv} from '../utils/api';
 import * as XLSX from 'xlsx';
 import {jsPDF} from 'jspdf';
 import StatsCard from '../components/StatsCard';
+import ProfileAvatar from '../components/ProfileAvatar';
 
 const topicLabels=['Foundations','Core Concepts','Applied Practice','Systems Thinking','Advanced Topics','Capstone Review'];
 
@@ -41,14 +42,14 @@ export default function StudentDashboard(){
       <Link className="student-side-link" to="/profile" onClick={closeMobile}><UserRound size={17}/>Profile settings</Link>
     </nav>
     <div className="student-side-subjects"><span className="student-nav-label">My subjects</span>{subjects.length?subjects.map(item=><button className={`student-subject-link ${String(item._id)===String(selectedId)?'active':''}`} key={item._id} onClick={()=>{setSelectedId(item._id);closeMobile();}}><span className="student-subject-dot"/><span>{item.subjectCode}</span><ChevronRight size={14}/></button>):<span className="text-xs text-slate-400">No enrolled subjects</span>}</div>
-    <div className="student-sidebar-foot"><div className="student-mini-profile"><span className="student-mini-avatar">{user?.fullName?.charAt(0)||'S'}</span><span><b>{user?.fullName||'Student'}</b><small>{user?.studentId||'Student account'}</small></span></div><button className="student-logout" onClick={async()=>{await logout();}} aria-label="Sign out"><LogOut size={16}/></button></div>
+    <div className="student-sidebar-foot"><div className="student-mini-profile"><ProfileAvatar user={user} className="student-mini-avatar"/><span><b>{user?.fullName||'Student'}</b><small>{user?.studentId||'Student account'}</small></span></div><button className="student-logout" onClick={async()=>{await logout();}} aria-label="Sign out"><LogOut size={16}/></button></div>
   </aside>;
 
   return <div className="student-app">
     {sidebar}
     {mobileOpen&&<button className="student-sidebar-scrim" onClick={closeMobile} aria-label="Close navigation"/>}
     <main className="student-main">
-      <header className="student-topbar"><button className="student-mobile-menu" onClick={()=>setMobileOpen(true)} aria-label="Open navigation"><Menu size={20}/></button><div className="student-search"><Search size={17}/><input aria-label="Search learning content" placeholder="Search your learning..." /><kbd>⌘ K</kbd></div><div className="student-topbar-profile"><span className="student-avatar">{user?.fullName?.charAt(0)||'S'}</span><span><b>{user?.fullName||'Student'}</b><small>{user?.studentId||'Student'}</small></span></div></header>
+      <header className="student-topbar"><button className="student-mobile-menu" onClick={()=>setMobileOpen(true)} aria-label="Open navigation"><Menu size={20}/></button><div className="student-search"><Search size={17}/><input aria-label="Search learning content" placeholder="Search your learning..." /><kbd>⌘ K</kbd></div><div className="student-topbar-profile"><ProfileAvatar user={user} className="student-avatar"/><span><b>{user?.fullName||'Student'}</b><small>{user?.studentId||'Student'}</small></span></div></header>
       <div className="student-canvas">
         {error&&<div className="error-card">{error}</div>}
         {!subjects.length?<div className="student-empty-state"><BookOpen size={28}/><h1>No enrolled subjects yet</h1><p>Enroll in a subject to start your guided six-topic learning path.</p><Link className="btn-primary" to="/subjects">Browse subjects</Link></div>:

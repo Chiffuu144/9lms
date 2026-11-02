@@ -115,6 +115,7 @@
 .student-mini-profile b,.student-topbar-profile b { @apply truncate text-xs font-bold text-slate-800; }
 .student-mini-profile small,.student-topbar-profile small { @apply truncate text-[10px] text-slate-400; }
 .student-mini-avatar,.student-avatar { @apply inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-tup-crimson text-xs font-black text-tup-gold; }
+.student-mini-avatar img,.student-avatar img,.faculty-mini-avatar img,.faculty-avatar img { @apply h-full w-full rounded-full object-cover; }
 .student-logout { @apply rounded-lg p-2 text-slate-400 hover:bg-red-50 hover:text-red-700; }
 .student-sidebar-scrim { @apply fixed inset-0 z-40 bg-slate-950/20 backdrop-blur-[1px] lg:hidden; }
 .student-main { @apply h-full overflow-y-auto lg:pl-64; }
