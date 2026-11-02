@@ -1,0 +1,438 @@
+@tailwind base; @tailwind components; @tailwind utilities;
+@layer base { :root { font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; } body { @apply bg-[#FAF9F6] text-slate-900 antialiased; } button,a { @apply transition-[transform,color,background-color,border-color,box-shadow] duration-200 ease-out; } button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible { @apply outline-none ring-2 ring-amber-500/40 ring-offset-2; } button:active { @apply scale-[.98]; } }
+.scroll-reveal { opacity:0; transform:translateY(24px); transition:opacity .65s cubic-bezier(0.22,0.61,0.36,1),transform .65s cubic-bezier(0.22,0.61,0.36,1); transition-delay:calc(var(--i,0) * 90ms); will-change:opacity,transform; }
+.scroll-reveal.active { opacity:1; transform:none; }
+.profile-page *, .roadmap * { animation:none!important; }
+@media (prefers-reduced-motion: reduce) { .scroll-reveal,.scroll-reveal.active { opacity:1; transform:none; transition:none; will-change:auto; } }
+@media print { .print-hidden { display:none!important; } body { background:white!important; } }
+.prose h1,.prose h2,.prose h3 { color:#800000; font-weight:700; }
+.btn-gold { @apply inline-flex items-center gap-2 bg-tup-gold text-tup-crimson px-6 py-3 rounded-full font-bold; }
+.page-shell { @apply max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12; }
+.hero-card { @apply relative overflow-hidden rounded-2xl border border-[#6B0000] bg-[#800000] text-white p-6 sm:p-9 shadow-[0_14px_35px_-22px_rgba(15,23,42,.5)]; }
+.hero-card h1 { @apply text-3xl sm:text-5xl font-extrabold tracking-tight; }
+.hero-card p { @apply mt-3 text-white/75 max-w-2xl; }
+.hero-badge { @apply absolute right-5 top-5 hidden sm:flex items-center gap-2 rounded-full bg-white/10 border border-white/20 px-4 py-2 text-sm; }
+.glass-card { @apply rounded-2xl border border-slate-200/80 bg-white shadow-[0_10px_30px_-24px_rgba(15,23,42,.6)]; }
+.eyebrow { @apply text-[11px] font-bold uppercase tracking-[.18em] text-tup-gold; }
+.section-title { @apply text-xl sm:text-2xl font-extrabold text-slate-900; }
+.status-pill { @apply rounded-full bg-tup-crimson/10 px-3 py-1 text-xs font-bold text-tup-crimson; }
+.roadmap { @apply grid gap-0 md:grid-cols-6; }
+.roadmap-item { @apply relative flex gap-4 md:block md:px-2; }
+.roadmap-node { @apply relative z-10 flex h-11 w-11 shrink-0 items-center justify-center rounded-full border-2 border-slate-200 bg-white font-bold text-slate-400 shadow-sm; }
+.roadmap-node.is-unlocked { @apply border-tup-crimson text-tup-crimson shadow-[0_0_0_4px_rgba(128,0,0,.07)]; }
+.roadmap-node.is-complete { @apply border-tup-gold bg-tup-gold text-tup-crimson; animation:none; }
+.roadmap-line { @apply absolute left-[21px] top-11 h-10 w-0.5 bg-slate-200 md:left-[calc(50%+20px)] md:top-[22px] md:h-0.5 md:w-[calc(100%-20px)]; }
+.roadmap-line.is-complete { @apply bg-tup-gold; }
+.roadmap-copy { @apply pb-8 md:pt-4; }
+.roadmap-copy h3 { @apply mt-1 font-bold text-slate-900; }
+.roadmap-copy p { @apply mt-1 text-sm leading-relaxed text-slate-500; }
+.topic-link { @apply mt-3 inline-flex items-center gap-1 text-sm font-bold text-tup-crimson hover:gap-2; }
+.locked-copy { @apply mt-3 block text-xs font-semibold text-slate-400; }
+.asset-hint { @apply mt-3 inline-flex items-center gap-1 text-xs font-semibold text-slate-500; }
+.back-link { @apply inline-flex font-semibold text-tup-crimson hover:-translate-x-1; }
+.topic-meta { @apply mt-6 flex flex-wrap gap-3 text-sm text-white/80; }
+.topic-meta span { @apply inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-2; }
+.tab-bar { @apply flex gap-1 overflow-x-auto rounded-2xl border border-slate-200 bg-white p-1 shadow-sm; }
+.tab-bar button { @apply inline-flex shrink-0 items-center gap-2 rounded-xl px-4 py-3 text-sm font-bold text-slate-500 hover:bg-slate-50; }
+.tab-bar button.active { @apply bg-tup-crimson text-white shadow-sm; }
+.lesson-card,.quiz-card { @apply rounded-3xl border border-slate-200/70 bg-white p-6 sm:p-10 shadow-sm; }
+.lesson-card { @apply min-h-[18rem] leading-8; }
+.pdf-frame { @apply overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-lg; }
+.asset-card { @apply flex items-center gap-3 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm hover:-translate-y-0.5 hover:border-tup-gold hover:shadow-md; }
+.asset-icon { @apply rounded-xl bg-tup-crimson/10 p-3 text-tup-crimson; }
+.asset-card small { @apply text-xs text-slate-400; }
+.icon-button { @apply rounded-lg p-2 text-slate-500 hover:bg-tup-crimson hover:text-white; }
+.btn-primary { @apply inline-flex items-center gap-2 rounded-xl bg-tup-crimson px-5 py-3 font-bold text-white shadow-sm hover:-translate-y-0.5 hover:bg-[#6B0000] active:scale-[.98]; }
+.empty-card,.error-card { @apply rounded-2xl border border-dashed border-slate-300 bg-white p-10 text-center text-slate-500; }
+.error-card { @apply border-red-200 text-red-700; }
+.success-card { @apply rounded-2xl border border-emerald-200 bg-emerald-50 p-4 text-emerald-700; }
+.feature-icon { @apply inline-flex rounded-xl bg-tup-crimson text-tup-gold p-3; }
+.field { @apply w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none transition-[border-color,box-shadow] duration-150 focus:border-tup-crimson focus:ring-2 focus:ring-amber-500/30; }
+.subject-card { @apply rounded-2xl border border-slate-200/80 bg-white p-5 shadow-[0_8px_24px_-22px_rgba(15,23,42,.8)] hover:-translate-y-0.5 hover:border-[#D4AF37] hover:shadow-md; }
+.subject-card h3 { @apply mt-2 text-lg font-bold text-slate-900; }
+.subject-card p { @apply mt-1 text-sm text-slate-500; }
+.subject-code { @apply inline-flex rounded-full bg-tup-crimson/10 px-3 py-1 text-xs font-extrabold tracking-wider text-tup-crimson; }
+.timer { @apply mt-5 inline-flex items-center gap-2 rounded-full border border-[#D4AF37]/60 bg-[#FFF8DC] px-4 py-2 text-lg font-black text-tup-crimson; }
+.timer.urgent { @apply border-red-200 bg-red-50 text-red-700; }
+.quiz-question { @apply rounded-2xl border border-slate-200 bg-white p-5 sm:p-7 shadow-sm; }
+.quiz-question legend { @apply flex items-start gap-3 text-lg font-bold text-slate-900; }
+.question-number { @apply inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-tup-crimson text-sm text-white; }
+.answer-option { @apply mt-3 flex cursor-pointer items-center gap-3 rounded-xl border border-slate-200 p-4 text-slate-700 hover:border-tup-gold hover:bg-amber-50; }
+.answer-option.selected { @apply border-tup-crimson bg-amber-50/70 text-slate-900; }
+.answer-option input { @apply h-4 w-4 accent-[#800000]; }
+.answer-check { @apply ml-auto flex shrink-0 text-tup-crimson; }
+.result-card { @apply mx-auto max-w-2xl rounded-3xl p-10 text-center shadow-xl; }
+.result-card.passed { @apply border border-emerald-200 bg-emerald-50 text-emerald-800; }
+.result-card.failed { @apply border border-red-200 bg-red-50 text-red-800; }
+.result-card h1 { @apply my-3 text-6xl font-black; }
+.btn-secondary { @apply inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-bold text-slate-700 hover:border-tup-gold hover:text-tup-crimson active:scale-95; }
+.report-card { @apply overflow-hidden rounded-3xl border border-slate-200/70 bg-white p-5 sm:p-7 shadow-sm; }
+.report-actions { @apply mb-5 flex flex-wrap items-center justify-between gap-4; }
+.report-table { @apply w-full text-left text-sm; }
+.report-table th { @apply whitespace-nowrap border-b border-slate-200 bg-slate-50 px-4 py-3 text-xs font-bold uppercase tracking-wider text-slate-500; }
+.report-table td { @apply whitespace-nowrap border-b border-slate-100 px-4 py-3 text-slate-700; }
+.report-table tbody tr { @apply hover:bg-amber-50/40; }
+.pass-pill,.pending-pill { @apply rounded-full px-2 py-1 text-xs font-bold; }
+.pass-pill { @apply bg-emerald-100 text-emerald-700; }
+.pending-pill { @apply bg-amber-100 text-amber-700; }
+.summary-card { @apply rounded-2xl border border-tup-gold/40 bg-amber-50 p-5 text-slate-700; }
+.verified-badge { @apply inline-flex items-center gap-2 rounded-full border border-[#FFD700] bg-[#800000] px-3 py-2 text-xs font-black tracking-wide text-[#FFD700]; }
+.upload-dropzone { @apply flex cursor-pointer flex-col items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-slate-300 bg-slate-50 p-8 text-center text-slate-600 transition-colors hover:border-tup-crimson hover:bg-red-50; }
+.upload-dropzone input { @apply sr-only; }
+.profile-avatar { @apply flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-full border-4 border-[#FFD700] bg-[#800000] text-[#FFD700]; }
+.profile-avatar img { @apply h-full w-full object-cover; }
+.nav-shell { @apply sticky top-0 z-40 border-b border-slate-200/90 bg-white/95 text-slate-900 shadow-[0_4px_20px_-18px_rgba(15,23,42,.8)] backdrop-blur-md; }
+.nav-inner { @apply mx-auto flex min-h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6; }
+.brand-lockup { @apply inline-flex min-w-0 shrink-0 items-center gap-2.5 rounded-xl py-2 focus-visible:ring-amber-500/40; }
+.brand-mark { @apply inline-flex h-9 w-9 items-center justify-center rounded-xl bg-tup-crimson text-tup-gold shadow-sm; }
+.brand-copy { @apply flex min-w-0 flex-col leading-none; }
+.brand-copy b { @apply text-sm font-black tracking-[.16em] text-slate-900; }
+.brand-copy small { @apply mt-1 max-w-[12rem] truncate text-[10px] font-semibold tracking-wide text-slate-500; }
+.nav-actions { @apply flex min-w-0 items-center gap-1 overflow-x-auto py-1 sm:gap-2; }
+.nav-link { @apply inline-flex shrink-0 items-center gap-1.5 rounded-xl border border-transparent px-3 py-2 text-sm font-bold text-slate-600 hover:-translate-y-px hover:border-slate-200 hover:bg-slate-50 hover:text-tup-crimson; }
+.nav-link.active { @apply border-[#800000]/15 bg-[#800000]/[.07] text-tup-crimson; }
+.nav-signout { @apply ml-1 inline-flex shrink-0 items-center gap-1.5 rounded-xl bg-tup-crimson px-3 py-2 text-sm font-bold text-white shadow-sm hover:-translate-y-px hover:bg-[#6B0000] sm:px-4; }
+.student-app { @apply h-screen overflow-hidden bg-[#F4F5F7] text-slate-900; }
+.student-sidebar { @apply fixed inset-y-0 left-0 z-50 flex w-64 -translate-x-full flex-col border-r border-slate-200/80 bg-white px-4 py-5 transition-transform duration-200 ease-out lg:translate-x-0; }
+.student-sidebar.is-open { @apply translate-x-0; }
+.student-sidebar-head { @apply flex items-center justify-between px-2; }
+.student-brand { @apply inline-flex items-center gap-2.5 rounded-xl p-2; }
+.student-brand-mark { @apply inline-flex h-9 w-9 items-center justify-center rounded-xl bg-tup-crimson text-tup-gold; }
+.student-brand b { @apply block text-sm font-black tracking-[.14em] text-slate-900; }
+.student-brand small { @apply mt-1 block text-[10px] font-bold uppercase tracking-wider text-slate-400; }
+.student-sidebar-close,.student-mobile-menu { @apply rounded-lg p-2 text-slate-500 hover:bg-slate-100 hover:text-tup-crimson lg:hidden; }
+.student-sidebar-nav,.student-side-subjects { @apply mt-9 space-y-1; }
+.student-nav-label { @apply mb-2 block px-3 text-[10px] font-black uppercase tracking-[.16em] text-slate-400; }
+.student-side-link { @apply flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold text-slate-500 hover:bg-slate-50 hover:text-tup-crimson; }
+.student-side-link.active { @apply bg-tup-crimson text-white shadow-sm; }
+.student-subject-link { @apply flex w-full items-center gap-2 rounded-xl px-3 py-2 text-left text-xs font-bold text-slate-500 hover:bg-slate-50 hover:text-tup-crimson; }
+.student-subject-link.active { @apply bg-amber-50 text-tup-crimson; }
+.student-subject-link svg { @apply ml-auto; }
+.student-subject-dot { @apply h-2 w-2 rounded-full bg-tup-gold; }
+.student-sidebar-foot { @apply mt-auto flex items-center justify-between border-t border-slate-100 px-2 pt-4; }
+.student-mini-profile,.student-topbar-profile { @apply flex min-w-0 items-center gap-2; }
+.student-mini-profile span:last-child,.student-topbar-profile span:last-child { @apply flex min-w-0 flex-col; }
+.student-mini-profile b,.student-topbar-profile b { @apply truncate text-xs font-bold text-slate-800; }
+.student-mini-profile small,.student-topbar-profile small { @apply truncate text-[10px] text-slate-400; }
+.student-mini-avatar,.student-avatar { @apply inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-tup-crimson text-xs font-black text-tup-gold; }
+.student-logout { @apply rounded-lg p-2 text-slate-400 hover:bg-red-50 hover:text-red-700; }
+.student-sidebar-scrim { @apply fixed inset-0 z-40 bg-slate-950/20 backdrop-blur-[1px] lg:hidden; }
+.student-main { @apply h-full overflow-y-auto lg:pl-64; }
+.student-topbar { @apply sticky top-0 z-30 flex h-16 items-center gap-3 border-b border-slate-200/80 bg-white/90 px-4 backdrop-blur-md sm:px-8; }
+.student-search { @apply flex max-w-lg flex-1 items-center gap-2 rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-slate-400; }
+.student-search input { @apply min-w-0 flex-1 bg-transparent text-sm text-slate-800 outline-none placeholder:text-slate-400; }
+.student-search kbd { @apply hidden rounded-md border border-slate-200 bg-white px-1.5 py-0.5 text-[10px] font-bold text-slate-400 sm:block; }
+.student-topbar-profile { @apply ml-auto border-l border-slate-200 pl-3 sm:pl-5; }
+.student-canvas { @apply mx-auto max-w-[1500px] p-4 sm:p-7 lg:p-10; }
+.student-dashboard-grid { @apply grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4; }
+.student-welcome-card { @apply relative col-span-1 flex min-h-[255px] overflow-hidden rounded-3xl bg-tup-crimson p-6 text-white shadow-sm md:col-span-2; }
+.student-welcome-card h1 { @apply mt-2 text-3xl font-black leading-[1.05] tracking-tight sm:text-4xl; }
+.student-welcome-card h1 em { @apply not-italic text-tup-gold; }
+.student-welcome-card p { @apply mt-3 max-w-sm text-sm text-white/70; }
+.student-overline { @apply text-[10px] font-black uppercase tracking-[.17em] text-tup-gold; }
+.student-overline.muted { @apply text-slate-400; }
+.student-subject-meta { @apply mt-5 flex flex-wrap gap-2 text-[11px] font-bold text-white/80; }
+.student-subject-meta span { @apply rounded-full border border-white/20 bg-white/10 px-2.5 py-1.5; }
+.student-light-button { @apply mt-6 inline-flex items-center gap-1.5 rounded-xl bg-white px-4 py-2.5 text-xs font-black text-tup-crimson hover:-translate-y-px hover:bg-amber-50; }
+.student-welcome-orb { @apply absolute -bottom-10 right-8 flex h-40 w-40 flex-col items-center justify-center rounded-full border border-white/20 bg-white/10 text-center text-tup-gold backdrop-blur-sm; }
+.student-welcome-orb span { @apply mt-2 text-[10px] font-black uppercase tracking-wider text-white/70; }
+.student-stat-card { @apply flex min-h-[155px] flex-col rounded-3xl border border-slate-200/80 bg-white p-5 shadow-sm; }
+.student-stat-card.dark { @apply border-slate-800 bg-[#121316] text-white; }
+.student-card-icon { @apply mb-4 flex h-8 w-8 items-center justify-center rounded-lg; }
+.student-card-icon.gold { @apply bg-amber-100 text-tup-crimson; }
+.student-card-icon.light { @apply bg-white/10 text-tup-gold; }
+.student-stat-card small { @apply block text-xs font-semibold text-slate-400; }
+.student-stat-card strong { @apply mt-1 block text-3xl font-black tracking-tight text-slate-900; }
+.student-stat-card.dark strong { @apply text-white; }
+.student-stat-card p { @apply mt-auto text-xs text-slate-400; }
+.student-progress-track { @apply mt-3 h-1.5 overflow-hidden rounded-full bg-slate-100; }
+.student-progress-track span { @apply block h-full rounded-full bg-tup-gold transition-[width] duration-300 ease-out; }
+.student-inline-link,.student-text-link { @apply mt-3 inline-flex items-center gap-1 text-xs font-black text-tup-crimson hover:gap-2; }
+.student-stat-card.dark .student-inline-link { @apply text-tup-gold; }
+.student-roadmap-card,.student-reader-card,.student-score-card { @apply rounded-3xl border border-slate-200/80 bg-white p-5 shadow-sm sm:p-6; }
+.student-roadmap-card { @apply md:col-span-2 xl:col-span-3; }
+.student-section-head { @apply flex items-start justify-between gap-3; }
+.student-section-head h2 { @apply mt-1 text-lg font-black tracking-tight text-slate-900; }
+.student-text-link { @apply mt-0; }
+.student-stepper { @apply mt-8 flex items-start; }
+.student-step-wrap { @apply flex min-w-0 flex-1 items-start; }
+.student-step { @apply flex min-w-[52px] flex-col items-center gap-2 text-center text-slate-400; }
+.student-step span,.student-step svg { @apply flex h-8 w-8 items-center justify-center rounded-full border border-slate-200 bg-white text-xs font-black; }
+.student-step small { @apply text-[9px] font-bold uppercase tracking-wide; }
+.student-step.current span { @apply border-tup-crimson bg-tup-crimson text-white shadow-[0_0_0_4px_rgba(128,0,0,.1)]; }
+.student-step.complete span,.student-step.complete svg { @apply border-tup-gold bg-tup-gold text-tup-crimson; }
+.student-step.locked { @apply cursor-not-allowed opacity-50; }
+.student-step-line { @apply mt-4 h-px flex-1 bg-slate-200; }
+.student-step-line.complete { @apply bg-tup-gold; }
+.student-roadmap-note { @apply mt-6 flex items-center gap-2 border-t border-slate-100 pt-4 text-xs text-slate-500; }
+.student-roadmap-note b { @apply ml-auto text-slate-800; }
+.student-current-dot { @apply h-2 w-2 rounded-full bg-tup-crimson; }
+.student-reader-card { @apply md:col-span-2 xl:col-span-2; }
+.student-verified { @apply inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-1.5 text-[10px] font-black text-emerald-700; }
+.student-reader-body { @apply mt-6 flex items-start gap-4 rounded-2xl bg-slate-50 p-5; }
+.student-reader-icon { @apply rounded-xl bg-white p-3 text-tup-crimson shadow-sm; }
+.student-reader-body h3 { @apply font-bold text-slate-900; }
+.student-reader-body p { @apply mt-1 max-w-md text-sm leading-relaxed text-slate-500; }
+.student-score-card { @apply md:col-span-2 xl:col-span-2; }
+.student-score-summary { @apply mt-5 flex items-end gap-3 border-b border-slate-100 pb-4; }
+.student-score-summary strong { @apply text-4xl font-black tracking-tight text-tup-crimson; }
+.student-score-summary span { @apply mb-1 text-xs text-slate-400; }
+.student-score-summary i { @apply mb-1 ml-auto rounded-full bg-amber-50 px-2 py-1 text-[10px] font-black not-italic text-amber-700; }
+.student-score-summary i.passed { @apply bg-emerald-50 text-emerald-700; }
+.student-score-list { @apply my-4 grid grid-cols-2 gap-x-6 gap-y-2; }
+.student-score-list div { @apply flex justify-between border-b border-slate-100 py-1.5 text-xs; }
+.student-score-list span { @apply text-slate-500; }
+.student-score-list b { @apply text-slate-800; }
+.student-export-toolbar { @apply mt-4 flex items-center gap-1 border-t border-slate-100 pt-3; }
+.student-export-toolbar button { @apply rounded-lg p-2 text-slate-400 hover:bg-slate-50 hover:text-tup-crimson; }
+.student-export-toolbar .student-text-link { @apply ml-auto; }
+.student-empty-state { @apply mx-auto max-w-lg rounded-3xl border border-dashed border-slate-300 bg-white p-12 text-center text-slate-400; }
+.student-empty-state h1 { @apply mt-4 text-2xl font-black text-slate-900; }
+.student-empty-state p { @apply mx-auto mt-2 max-w-sm text-sm; }
+.student-empty-state .btn-primary { @apply mt-6; }
+.topic-page,.profile-page { @apply relative; }
+.topic-hero-modern { @apply shadow-[0_18px_45px_-28px_rgba(128,0,0,.7)]; }
+.presentation-feature { @apply space-y-4; }
+.modern-tab-bar { @apply sticky top-[4.5rem] z-20 shadow-[0_8px_20px_-18px_rgba(15,23,42,.7)]; }
+.modern-content-card { @apply shadow-[0_12px_30px_-24px_rgba(15,23,42,.7)]; }
+.modern-summary-card { @apply border-l-4 border-l-tup-gold shadow-sm; }
+.modern-pdf-frame { @apply shadow-[0_14px_35px_-24px_rgba(15,23,42,.7)]; }
+.profile-hero { @apply shadow-[0_18px_45px_-28px_rgba(128,0,0,.7)]; }
+.profile-form { @apply shadow-[0_12px_30px_-24px_rgba(15,23,42,.7)]; }
+.faculty-app { @apply h-screen overflow-hidden bg-[#F4F5F7] text-slate-900; }
+.faculty-sidebar { @apply fixed inset-y-0 left-0 z-50 flex w-64 -translate-x-full flex-col border-r border-slate-200/80 bg-white px-4 py-5 transition-transform duration-200 ease-out lg:translate-x-0; }
+.faculty-sidebar.is-open { @apply translate-x-0; }
+.faculty-sidebar-head { @apply flex items-center justify-between px-2; }
+.faculty-brand { @apply inline-flex items-center gap-2.5 rounded-xl p-2; }
+.faculty-brand-mark { @apply inline-flex h-9 w-9 items-center justify-center rounded-xl bg-tup-crimson text-tup-gold; }
+.faculty-brand b { @apply block text-sm font-black tracking-[.14em] text-slate-900; }
+.faculty-brand small { @apply mt-1 block text-[10px] font-bold uppercase tracking-wider text-slate-400; }
+.faculty-sidebar-close,.faculty-mobile-menu { @apply rounded-lg p-2 text-slate-500 hover:bg-slate-100 hover:text-tup-crimson lg:hidden; }
+.faculty-sidebar-nav { @apply mt-9 space-y-1; }
+.faculty-nav-label { @apply mb-2 block px-3 text-[10px] font-black uppercase tracking-[.16em] text-slate-400; }
+.faculty-side-link { @apply flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold text-slate-500 hover:bg-slate-50 hover:text-tup-crimson; }
+.faculty-side-link.active { @apply bg-tup-crimson text-white shadow-sm; }
+.faculty-sidebar-foot { @apply mt-auto flex items-center justify-between border-t border-slate-100 px-2 pt-4; }
+.faculty-mini-profile,.faculty-topbar-profile { @apply flex min-w-0 items-center gap-2; }
+.faculty-mini-profile span:last-child,.faculty-topbar-profile span:last-child { @apply flex min-w-0 flex-col; }
+.faculty-mini-profile b,.faculty-topbar-profile b { @apply truncate text-xs font-bold text-slate-800; }
+.faculty-mini-profile small,.faculty-topbar-profile small { @apply truncate text-[10px] text-slate-400; }
+.faculty-mini-avatar,.faculty-avatar { @apply inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-tup-crimson text-xs font-black text-tup-gold; }
+.faculty-logout { @apply rounded-lg p-2 text-slate-400 hover:bg-red-50 hover:text-red-700; }
+.faculty-sidebar-scrim { @apply fixed inset-0 z-40 bg-slate-950/20 backdrop-blur-[1px] lg:hidden; }
+.faculty-main { @apply h-full overflow-y-auto lg:pl-64; }
+.faculty-topbar { @apply sticky top-0 z-30 flex h-16 items-center border-b border-slate-200/80 bg-white/90 px-4 backdrop-blur-md sm:px-8; }
+.faculty-topbar-copy { @apply ml-3 flex flex-col; }
+.faculty-topbar-copy span { @apply text-[10px] font-black uppercase tracking-[.16em] text-tup-crimson; }
+.faculty-topbar-copy b { @apply mt-0.5 text-sm font-bold text-slate-800; }
+.faculty-topbar-profile { @apply ml-auto border-l border-slate-200 pl-4 sm:pl-5; }
+.faculty-canvas { @apply mx-auto max-w-[1500px] p-4 sm:p-7 lg:p-10; }
+.faculty-dashboard-grid { @apply grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4; }
+.faculty-welcome-card { @apply relative col-span-1 flex min-h-[255px] overflow-hidden rounded-3xl bg-tup-crimson p-6 text-white shadow-sm md:col-span-2; }
+.faculty-welcome-card h1 { @apply mt-2 text-3xl font-black leading-[1.05] tracking-tight sm:text-4xl; }
+.faculty-welcome-card h1 em { @apply not-italic text-tup-gold; }
+.faculty-welcome-card p { @apply mt-3 max-w-md text-sm leading-relaxed text-white/70; }
+.faculty-overline { @apply text-[10px] font-black uppercase tracking-[.17em] text-tup-gold; }
+.faculty-overline.muted { @apply text-slate-400; }
+.faculty-welcome-stats { @apply mt-6 flex gap-5 text-xs text-white/60; }
+.faculty-welcome-stats b { @apply mr-1 text-lg text-tup-gold; }
+.faculty-welcome-art { @apply absolute -bottom-8 right-10 flex h-36 w-36 flex-col items-center justify-center rounded-full border border-white/20 bg-white/10 text-tup-gold backdrop-blur-sm; }
+.faculty-welcome-art span { @apply mt-2 text-[9px] font-black uppercase tracking-wide text-white/70; }
+.faculty-stat-card { @apply flex min-h-[155px] flex-col rounded-3xl border border-slate-200/80 bg-white p-5 shadow-sm; }
+.faculty-stat-card.dark { @apply border-slate-800 bg-[#121316] text-white; }
+.faculty-card-icon { @apply mb-4 flex h-8 w-8 items-center justify-center rounded-lg bg-amber-100 text-tup-crimson; }
+.faculty-card-icon.gold { @apply bg-white/10 text-tup-gold; }
+.faculty-card-icon.small { @apply mb-0 h-8 w-8; }
+.faculty-stat-card small { @apply text-xs font-semibold text-slate-400; }
+.faculty-stat-card strong { @apply mt-1 text-3xl font-black tracking-tight text-slate-900; }
+.faculty-stat-card.dark strong { @apply text-white; }
+.faculty-stat-card p { @apply mt-auto text-xs text-slate-400; }
+.faculty-create-card,.faculty-subjects-card { @apply rounded-3xl border border-slate-200/80 bg-white p-5 shadow-sm sm:p-6; }
+.faculty-create-card { @apply md:col-span-2 xl:col-span-4; }
+.faculty-section-head { @apply flex items-start justify-between gap-3; }
+.faculty-section-head h2 { @apply mt-1 text-lg font-black tracking-tight text-slate-900; }
+.faculty-create-form { @apply mt-6 grid gap-3 md:grid-cols-2 xl:grid-cols-5; }
+.faculty-subject-name { @apply xl:col-span-1; }
+.faculty-create-button { @apply justify-center; }
+.faculty-subjects-card { @apply md:col-span-2 xl:col-span-4; }
+.faculty-count-pill { @apply rounded-full bg-tup-crimson/10 px-3 py-1 text-xs font-bold text-tup-crimson; }
+.faculty-subject-grid { @apply mt-5 grid gap-3 md:grid-cols-2 lg:grid-cols-3; }
+.faculty-subject-card { @apply rounded-2xl border border-slate-200 bg-slate-50/70 p-4 transition-[transform,box-shadow,border-color] duration-200 hover:-translate-y-0.5 hover:border-tup-gold hover:bg-white hover:shadow-md; }
+.faculty-subject-card-top { @apply flex items-center justify-between; }
+.faculty-subject-status { @apply rounded-full bg-emerald-50 px-2 py-1 text-[10px] font-black text-emerald-700; }
+.faculty-subject-card h3 { @apply mt-4 text-base font-black text-slate-900; }
+.faculty-subject-card p { @apply mt-1 text-xs text-slate-500; }
+.faculty-subject-actions { @apply mt-5 flex items-center gap-2 border-t border-slate-200 pt-3; }
+.faculty-action-link { @apply inline-flex items-center gap-1 rounded-lg px-2 py-1.5 text-[10px] font-bold text-slate-500 hover:bg-white hover:text-tup-crimson; }
+.faculty-empty { @apply flex flex-col items-center gap-2 py-10 text-center text-slate-400; }
+@media (max-width: 639px) { .faculty-welcome-art { @apply -right-10 opacity-40; } .faculty-topbar-profile span:last-child { @apply hidden; } }
+/* Shared surface treatment: warm, layered surfaces instead of default white blocks. */
+@layer base {
+  body { background-color:#eef0f3; background-image:radial-gradient(circle at 8% 0%,rgba(212,175,55,.12),transparent 24rem),radial-gradient(circle at 92% 18%,rgba(128,0,0,.08),transparent 28rem); }
+}
+.nav-shell { background-color:rgba(255,253,249,.92); }
+.glass-card,.lesson-card,.quiz-card,.report-card,.pdf-frame,.asset-card,.empty-card,.error-card,.subject-card,.tab-bar,.faculty-create-card,.faculty-subjects-card,.student-roadmap-card,.student-reader-card,.student-score-card,.student-stat-card,.faculty-stat-card { background-color:#fffdf9; }
+.tab-bar { border-color:#e4ddd4; }
+.tab-bar button:hover { background-color:#f4eee6; }
+.field { background-color:#f8f5ef; border-color:#e5ddd2; }
+.field:focus { background-color:#fffdf9; }
+.roadmap-node { background-color:#fffdf9; border-color:#ded7ce; }
+.faculty-app,.student-app { background-color:transparent; background-image:radial-gradient(circle at 10% 0%,rgba(212,175,55,.09),transparent 20rem),radial-gradient(circle at 100% 30%,rgba(128,0,0,.06),transparent 24rem); }
+.student-sidebar,.faculty-sidebar,.student-topbar,.faculty-topbar { background-color:rgba(255,253,249,.9); border-color:#e4ddd4; }
+.faculty-subject-card { background-color:#f8f4ed; border-color:#e8dfd4; }
+.faculty-subject-card:hover { background-color:#fffdf9; }
+.student-reader-body { background-color:#f5f0e8; }
+.student-progress-track { background-color:#e8e1d8; }
+.auth-shell { background-color:#fffdf9; border-color:#e6ddd2; }
+.auth-form-panel { background-color:#fffdf9; }
+.auth-field { background-color:#f5f2ec; border-color:#e4dbd0; }
+.auth-field:focus { background-color:#fffdf9; }
+.success-card { background-color:#edf6ef; }
+.toast-region { @apply pointer-events-none fixed right-4 top-20 z-[100] flex w-[min(24rem,calc(100vw-2rem))] flex-col gap-3; }
+.toast { @apply pointer-events-auto flex items-start gap-3 rounded-2xl border px-4 py-3 text-sm font-semibold shadow-[0_18px_45px_-20px_rgba(15,23,42,.45)] backdrop-blur-md; animation:toast-in 180ms cubic-bezier(.23,1,.32,1); }
+.toast-success { @apply border-emerald-200/80 bg-[#f3fbf5]/95 text-emerald-800; }
+.toast-error { @apply border-red-200/80 bg-[#fff5f4]/95 text-red-800; }
+.toast-info { @apply border-sky-200/80 bg-[#f3f9ff]/95 text-sky-800; }
+.toast svg { @apply mt-0.5 shrink-0; }
+.toast button { @apply ml-auto shrink-0 rounded-lg p-1 opacity-50 hover:bg-black/5 hover:opacity-100; }
+@keyframes toast-in { from { opacity:0; transform:translateY(-8px) scale(.97); } to { opacity:1; transform:translateY(0) scale(1); } }
+@media (prefers-reduced-motion: reduce) { .toast { animation:none; } }
+.home-page { background:#f3f1ed; color:#0f172a; }
+.home-hero { @apply relative isolate grid min-h-[calc(100vh-4rem)] overflow-hidden bg-[#800000] text-white lg:grid-cols-[1.15fr_.85fr]; }
+.home-hero::before { content:''; position:absolute; inset:0; z-index:-1; background:radial-gradient(circle at 12% 80%,rgba(255,215,0,.15),transparent 25rem),linear-gradient(135deg,#800000 0%,#650000 55%,#3c0000 100%); }
+.home-hero::after { content:''; position:absolute; right:-12rem; bottom:-16rem; width:42rem; height:42rem; border:1px solid rgba(255,215,0,.24); border-radius:999px; pointer-events:none; }
+.home-hero-content { @apply relative z-10 flex flex-col justify-center px-7 py-16 sm:px-14 lg:px-[clamp(3rem,9vw,9rem)] lg:py-20; }
+.home-kicker { @apply inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-[.2em] text-tup-gold; }
+.home-kicker.dark { @apply text-tup-crimson; }
+.home-mark { @apply mt-10 flex h-16 w-16 items-center justify-center rounded-2xl bg-tup-gold text-tup-crimson shadow-[0_12px_30px_-12px_rgba(255,215,0,.7)]; }
+.home-index { @apply mt-8 text-[10px] font-bold uppercase tracking-[.2em] text-white/45; }
+.home-hero h1 { @apply mt-4 text-6xl font-black leading-[.9] tracking-[-.06em] sm:text-8xl lg:text-[clamp(5rem,8vw,8.5rem)]; }
+.home-hero h1 em { @apply not-italic text-tup-gold; }
+.home-lede { @apply mt-7 max-w-md text-base leading-relaxed text-white/65 sm:text-lg; }
+.home-actions { @apply mt-9 flex flex-wrap gap-3; }
+.home-outline-button { @apply inline-flex items-center rounded-full border border-white/30 px-6 py-3 font-bold text-white hover:border-tup-gold hover:text-tup-gold; }
+.home-proof { @apply mt-16 flex flex-wrap gap-x-7 gap-y-3 border-t border-white/15 pt-5 text-[10px] uppercase tracking-wider text-white/45; }
+.home-proof strong { @apply mr-1 text-sm text-tup-gold; }
+.home-hero-panel { @apply relative z-10 flex flex-col justify-end border-l border-white/10 bg-black/10 px-7 py-10 sm:px-14 lg:px-12 lg:py-20; }
+.home-panel-top { @apply mb-auto flex justify-between text-[10px] font-bold uppercase tracking-[.18em] text-white/45; }
+.home-live-dot { @apply inline-flex items-center gap-2 text-tup-gold; }
+.home-live-dot::before { content:''; @apply h-1.5 w-1.5 rounded-full bg-tup-gold; }
+.home-progress-card { @apply flex items-center gap-5 rounded-3xl border border-white/15 bg-white/10 p-5 backdrop-blur-md; }
+.home-progress-ring { @apply flex h-20 w-20 shrink-0 items-center justify-center rounded-full border-[6px] border-tup-gold/30 border-t-tup-gold text-xl font-black text-tup-gold; }
+.home-progress-card small { @apply text-[10px] font-bold tracking-[.18em] text-white/45; }
+.home-progress-card strong { @apply mt-2 block text-xl leading-tight tracking-tight; }
+.home-mini-roadmap { @apply mt-5 flex items-center gap-2; }
+.home-mini-roadmap span { @apply flex h-8 w-8 items-center justify-center rounded-full border border-white/20 text-xs font-bold text-white/45; }
+.home-mini-roadmap span.active { @apply border-tup-gold bg-tup-gold text-tup-crimson; }
+.home-panel-note { @apply mt-5 max-w-xs text-sm leading-relaxed text-white/50; }
+.home-features { @apply mx-auto grid max-w-7xl gap-10 px-6 py-20 sm:px-10 lg:grid-cols-[.7fr_1.3fr] lg:gap-16 lg:px-12 lg:py-28; }
+.home-section-intro h2 { @apply mt-3 text-4xl font-black leading-tight tracking-tight sm:text-5xl; }
+.home-section-intro h2 em { @apply not-italic text-tup-crimson; }
+.home-section-intro p { @apply mt-5 max-w-sm leading-relaxed text-slate-500; }
+.home-feature-grid { @apply grid gap-3 sm:grid-cols-2; }
+.home-feature-card { @apply relative rounded-2xl border border-[#e5ded5] bg-[#fffdf9] p-5 shadow-[0_12px_30px_-26px_rgba(15,23,42,.6)]; transition:transform 200ms cubic-bezier(.23,1,.32,1),border-color 200ms ease,box-shadow 200ms ease; }
+.home-feature-number { @apply absolute right-5 top-5 text-[10px] font-black tracking-widest text-slate-300; }
+.home-feature-icon { @apply flex h-10 w-10 items-center justify-center rounded-xl bg-tup-crimson text-tup-gold; }
+.home-feature-card h3 { @apply mt-5 font-black tracking-tight; }
+.home-feature-card p { @apply mt-2 text-sm leading-relaxed text-slate-500; }
+@media (hover:hover) and (pointer:fine) { .home-feature-card:hover { transform:translateY(-3px); border-color:rgba(212,175,55,.75); box-shadow:0 16px 30px -24px rgba(15,23,42,.55); } }
+.auth-page { @apply relative flex min-h-[calc(100vh-4rem)] w-full items-center justify-center overflow-x-hidden overflow-y-auto bg-[#eef1f5] p-0; background-image:linear-gradient(rgba(148,163,184,.1) 1px,transparent 1px),linear-gradient(90deg,rgba(148,163,184,.1) 1px,transparent 1px); background-size:32px 32px; }
+.auth-page::before { content:''; @apply pointer-events-none absolute -left-32 top-1/4 h-96 w-96 rounded-full bg-[#FFD700]/20 blur-3xl; }
+.auth-page::after { content:''; @apply pointer-events-none absolute -right-28 bottom-0 h-[30rem] w-[30rem] rounded-full bg-[#800000]/10 blur-3xl; }
+.auth-shell { @apply relative z-10 grid min-h-[calc(100vh-4rem)] w-full overflow-hidden border-0 bg-white shadow-none lg:grid-cols-[1.03fr_.97fr]; }
+.auth-visual { @apply relative flex min-h-0 flex-col overflow-hidden bg-tup-crimson p-6 text-white sm:p-8; }
+.auth-visual::before { content:''; @apply pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full border border-tup-gold/20; }
+.auth-visual::after { content:''; @apply pointer-events-none absolute -bottom-32 -left-20 h-80 w-80 rounded-full border border-white/10; }
+.auth-visual-top { @apply relative z-10 flex items-center gap-2 text-sm tracking-[.16em]; }
+.auth-logo { @apply inline-flex h-9 w-9 items-center justify-center rounded-xl bg-tup-gold text-tup-crimson; }
+.auth-visual-copy { @apply relative z-10 mt-auto max-w-md; }
+.auth-overline { @apply inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-[.18em] text-tup-gold; }
+.auth-overline.dark { @apply text-tup-crimson; }
+.auth-visual-copy h2 { @apply mt-3 text-4xl font-black leading-[1.02] tracking-tight sm:text-5xl; }
+.auth-visual-copy h2 em,.auth-form-heading h1 em { @apply not-italic text-tup-gold; }
+.auth-visual-copy p { @apply mt-4 max-w-sm text-sm leading-relaxed text-white/70; }
+.auth-visual-art { @apply relative z-10 order-first mx-auto mb-5 mt-5 w-full max-w-[25rem] sm:order-none sm:mb-5 sm:mt-3; }
+.auth-visual-art img { @apply w-full drop-shadow-[0_18px_20px_rgba(0,0,0,.2)]; }
+.auth-float-card { @apply absolute bottom-4 right-2 inline-flex items-center gap-2 rounded-xl border border-white/20 bg-white/10 px-3 py-2 text-[10px] font-bold backdrop-blur-md; }
+.auth-visual-footer { @apply relative z-10 mt-auto flex items-center gap-3 text-[10px] font-bold uppercase tracking-wider text-white/50; }
+.auth-visual-footer i { @apply h-px w-12 bg-tup-gold; }
+.auth-form-panel { @apply flex flex-col justify-center p-6 sm:p-9; }
+.auth-form-heading h1 { @apply mt-3 text-4xl font-black leading-[1.04] tracking-tight text-slate-900; }
+.auth-form-heading p { @apply mt-3 max-w-sm text-sm leading-relaxed text-slate-500; }
+.auth-form { @apply mt-6 space-y-3; }
+.auth-field-label { @apply block text-xs font-black uppercase tracking-wide text-slate-600; }
+.auth-field { @apply mt-1.5 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm font-normal normal-case tracking-normal text-slate-900 outline-none transition-[border-color,box-shadow,background-color] duration-150 focus:border-tup-crimson focus:bg-white focus:ring-2 focus:ring-amber-500/30; }
+.auth-submit { @apply inline-flex w-full items-center justify-center gap-2 rounded-xl bg-tup-crimson py-3 text-sm font-black text-white shadow-sm hover:-translate-y-px hover:bg-[#6B0000]; }
+.auth-switch { @apply mt-4 text-center text-sm text-slate-500; }
+.auth-switch a { @apply font-black text-tup-crimson hover:text-[#6B0000]; }
+.auth-error { @apply rounded-xl border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700; }
+.auth-info { @apply flex items-center gap-2 rounded-xl border border-amber-200 bg-amber-50 px-3 py-2 text-xs font-semibold text-amber-800; }
+.auth-role-toggle { @apply flex rounded-xl bg-slate-100 p-1; }
+.auth-role-toggle button { @apply flex-1 rounded-lg px-3 py-2 text-xs font-bold text-slate-500; }
+.auth-role-toggle button.active { @apply bg-white text-tup-crimson shadow-sm; }
+.auth-two-fields { @apply grid gap-3 sm:grid-cols-2; }
+@media (max-width: 1023px) { .auth-visual-copy { @apply mt-7; } .auth-visual-art { @apply max-w-[24rem]; } .auth-visual-footer { @apply mt-7; } }
+@media (min-width: 1024px) and (max-height: 900px) { .auth-visual-copy h2 { @apply text-4xl; } .auth-visual-copy p { @apply mt-2; } .auth-visual-art { @apply mb-3 mt-2 max-w-[21rem]; } .auth-form-panel { @apply p-7; } .auth-form-heading h1 { @apply text-3xl; } .auth-form-heading p { @apply mt-2; } .auth-form { @apply mt-5; } }
+@media (max-height: 760px) and (min-width: 1024px) { .auth-visual { @apply overflow-y-auto; } .auth-form-panel { @apply overflow-y-auto; } }
+@media (prefers-reduced-motion: reduce) { .auth-shell,.auth-submit,.auth-field { transition:none!important; } }
+@media (max-width: 639px) { .student-welcome-orb { @apply -right-12 opacity-40; } .student-welcome-card { @apply min-h-[280px]; } .student-topbar-profile span:last-child { @apply hidden; } .student-step small { @apply text-[8px]; } }
+.quiz-timer-ring { @apply relative flex h-16 w-16 items-center justify-center rounded-full; background: conic-gradient(#800000 var(--timer-progress), #E2E8F0 0); }
+.quiz-timer-ring::before { content:''; @apply absolute inset-1 rounded-full bg-white; }
+.quiz-timer-ring span { @apply relative z-10 text-[11px] font-black text-slate-800; }
+@media (prefers-reduced-motion: reduce) { *,*::before,*::after { animation-duration:.01ms!important; animation-iteration-count:1!important; scroll-behavior:auto!important; transition-duration:.01ms!important; } }
+.slide-workspace-layout { @apply mt-5 grid gap-5 lg:grid-cols-[14rem_1fr]; }
+.slide-thumbnails { @apply flex gap-3 overflow-x-auto rounded-2xl bg-slate-100 p-3 lg:max-h-[32rem] lg:flex-col lg:overflow-y-auto; }
+.slide-thumbnail { @apply min-w-40 rounded-xl border border-slate-200 bg-white p-3 text-left shadow-sm transition hover:border-tup-crimson hover:shadow-md lg:min-w-0; }
+.slide-thumbnail.selected { @apply border-2 border-tup-crimson bg-red-50 ring-2 ring-red-100; }
+.slide-thumbnail-number { @apply block text-xs font-black uppercase tracking-wide text-tup-crimson; }
+.slide-thumbnail strong { @apply mt-2 block truncate text-sm text-slate-800; }
+.slide-thumbnail small { @apply mt-1 block text-xs text-slate-500; }
+.slide-editor-panel { @apply min-h-80 rounded-2xl border border-slate-200 bg-white p-4 sm:p-6; }
+.slide-live-preview { @apply mt-5 rounded-2xl border border-amber-300 bg-slate-900 p-6 text-white; }
+.slide-live-preview span { @apply text-[10px] font-bold uppercase tracking-widest text-[#FFD700]; }
+.slide-live-preview h3 { @apply mt-3 text-2xl font-black; }
+.slide-live-preview p { @apply mt-3 text-slate-300; }
+.slide-live-preview div { @apply mt-2 text-sm text-slate-200; }
+.ppt-shell { @apply relative overflow-hidden rounded-3xl border border-amber-500/20 bg-slate-900 text-white shadow-2xl; }
+.ppt-fullscreen { @apply min-h-screen rounded-none; }
+.ppt-toolbar { @apply flex flex-wrap items-center justify-between gap-4 border-b border-white/10 bg-[#800000] px-4 py-4 sm:px-6; }
+.ppt-toolbar-leading { @apply flex items-center gap-3; }
+.ppt-kicker { @apply block text-[10px] font-bold uppercase tracking-[.18em] text-[#FFD700]; }
+.ppt-toolbar strong { @apply text-sm sm:text-base; }
+.ppt-toolbar-actions { @apply flex items-center gap-2; }
+.ppt-back-button { @apply inline-flex items-center gap-1 rounded-lg border border-white/25 px-3 py-2 text-sm font-bold text-white transition-colors hover:border-[#FFD700] hover:text-[#FFD700] active:scale-[.97]; }
+.ppt-counter { @apply hidden text-xs text-white/70 sm:block; }
+.ppt-icon-button { @apply rounded-lg border border-white/20 p-2 text-white hover:bg-white/10; }
+.ppt-progress { @apply h-1 bg-black/30; }
+.ppt-progress div { @apply h-full bg-[#FFD700]; }
+.ppt-stage { @apply min-h-[30rem] overflow-hidden px-5 py-8 sm:px-10 sm:py-12; }
+.ppt-slide { @apply h-full; }
+.ppt-content { @apply flex min-h-[26rem] items-center justify-center; }
+.ppt-copy { @apply w-full max-w-4xl text-center; }
+.ppt-section { @apply inline-flex rounded-full border border-[#FFD700]/30 bg-[#FFD700]/10 px-3 py-1 text-xs font-bold uppercase tracking-widest text-[#FFD700]; }
+.ppt-copy h2 { @apply mx-auto mt-6 max-w-4xl text-3xl font-black leading-[1.08] tracking-[-.02em] text-white sm:text-5xl; }
+.ppt-subtitle { @apply mx-auto mt-4 max-w-2xl text-base leading-7 text-white/70; }
+.ppt-copy ul { @apply mx-auto mt-8 max-w-3xl space-y-4 text-left; }
+.ppt-copy li { @apply relative border-l-2 border-[#FFD700]/70 pl-5 text-base leading-7 text-slate-200 sm:text-lg sm:leading-8; }
+.ppt-visual { @apply flex min-h-64 items-center justify-center overflow-hidden rounded-2xl border border-amber-500/20 bg-slate-800/80 p-4 shadow-inner; }
+.ppt-visual img { @apply max-h-[25rem] w-full rounded-xl object-contain; }
+.ppt-visual span { @apply hidden text-center text-sm text-slate-400; }
+.ppt-visual.image-fallback span { @apply block; }
+.ppt-pdf-visual { @apply min-h-64 bg-slate-950 p-0; }
+.ppt-pdf-visual iframe { @apply h-[20rem] w-full border-0 bg-white sm:h-[26rem]; }
+.ppt-controls { @apply flex items-center justify-between gap-3 border-t border-white/10 bg-slate-950/70 px-4 py-4 sm:px-6; }
+.ppt-nav-button { @apply inline-flex items-center gap-1 rounded-xl border border-white/15 px-3 py-2 text-sm font-bold text-white hover:border-[#FFD700] hover:text-[#FFD700] disabled:cursor-not-allowed disabled:opacity-30; }
+.ppt-dots { @apply flex max-w-[45%] gap-1 overflow-hidden; }
+.ppt-dots button { @apply h-1.5 w-2 shrink-0 rounded-full bg-white/20; }
+.ppt-dots button.active { @apply w-6 bg-[#FFD700]; }
+.ppt-picker { @apply absolute inset-16 z-20 overflow-auto rounded-2xl border border-amber-500/30 bg-slate-950/95 p-4 shadow-2xl backdrop-blur-md; }
+.ppt-picker-head { @apply mb-4 flex items-center justify-between; }
+.ppt-picker-head button { @apply text-sm text-slate-400 hover:text-white; }
+.ppt-picker-grid { @apply grid gap-2 sm:grid-cols-2 lg:grid-cols-3; }
+.ppt-picker-grid button { @apply flex gap-3 rounded-xl border border-white/10 p-3 text-left hover:border-[#FFD700] hover:bg-white/5; }
+.ppt-picker-grid button.selected { @apply border-[#FFD700] bg-[#800000]/60; }
+.ppt-picker-grid span { @apply flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-white/10 text-xs font-bold text-[#FFD700]; }
+.ppt-picker-grid small { @apply line-clamp-2 text-xs text-slate-300; }
+.empty-copy { @apply text-slate-500; }
+.skeleton { @apply animate-pulse rounded-2xl bg-slate-200; }
+@keyframes soft-pulse { 0%,100% { box-shadow: 0 0 0 0 rgba(128,0,0,.12); } 50% { box-shadow: 0 0 0 8px rgba(128,0,0,0); } }

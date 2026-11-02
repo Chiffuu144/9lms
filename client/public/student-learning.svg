@@ -1,0 +1,16 @@
+<svg width="560" height="420" viewBox="0 0 560 420" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect x="67" y="90" width="404" height="246" rx="20" fill="#A00000" stroke="#FFD700" stroke-opacity=".5" stroke-width="2"/>
+<path d="M45 341h450l-26 20H71l-26-20Z" fill="#FFD700" fill-opacity=".9"/>
+<rect x="103" y="123" width="332" height="178" rx="8" fill="#121316"/>
+<circle cx="269" cy="211" r="48" fill="#800000"/>
+<path d="M242 219c0-16 12-29 27-29s27 13 27 29v19h-54v-19Z" fill="#FFD700"/>
+<circle cx="269" cy="179" r="15" fill="#F3C6A8"/>
+<path d="M249 175c3-17 37-21 42 2-11-5-28-7-42-2Z" fill="#121316"/>
+<path d="M194 288c9-34 33-51 75-51s66 17 75 51H194Z" fill="#E6CA65"/>
+<rect x="123" y="143" width="54" height="7" rx="3.5" fill="#FFD700"/>
+<rect x="123" y="158" width="82" height="5" rx="2.5" fill="white" fill-opacity=".35"/>
+<rect x="353" y="142" width="55" height="55" rx="12" fill="#FFD700" fill-opacity=".12"/>
+<path d="m369 169 10 10 20-22" stroke="#FFD700" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="94" cy="70" r="7" fill="#FFD700"/><circle cx="468" cy="57" r="5" fill="#FFD700" fill-opacity=".7"/>
+<path d="m502 109 8 16 17 2-13 12 4 17-16-9-16 9 4-17-13-12 17-2 8-16Z" fill="#FFD700" fill-opacity=".8"/>
+</svg>
