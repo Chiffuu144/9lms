@@ -29,6 +29,8 @@ npm start
 
 Deploy the client to Vercel and the Express API to Render or Railway. The Vercel rewrite in `client/vercel.json` proxies API and asset requests to the deployed API, keeping browser authentication on the Vercel origin. Set `CLIENT_URL` on the API host to the production Vercel origin, and leave `VITE_API_URL` unset in Vercel so the client uses that proxy.
 
+Uploaded profile images and faculty presentation files are stored in Cloudinary. Create a Cloudinary account, then add `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, and `CLOUDINARY_API_SECRET` from the Cloudinary dashboard to the backend host's environment variables. Do not expose these credentials in Vercel or commit them. After deploying the backend with these values, newly uploaded files will be stored persistently; existing files must be uploaded again from the faculty topic editor.
+
 ### Temporary GitHub Pages deployment
 
 The client is configured to deploy automatically to:
