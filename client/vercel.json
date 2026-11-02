@@ -1,6 +1,18 @@
 {
   "rewrites": [
     {
+      "source": "/api/(.*)",
+      "destination": "https://ninelms.onrender.com/api/$1"
+    },
+    {
+      "source": "/uploads/(.*)",
+      "destination": "https://ninelms.onrender.com/uploads/$1"
+    },
+    {
+      "source": "/topic-assets/(.*)",
+      "destination": "https://ninelms.onrender.com/topic-assets/$1"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }

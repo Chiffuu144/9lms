@@ -27,7 +27,7 @@ npm run build
 npm start
 ```
 
-Deploy the `client/dist` folder to Vercel or Netlify and deploy `server` to Render, Railway, or a Vercel Express wrapper. Set `VITE_API_URL` and `CLIENT_URL` to the deployed origins.
+Deploy the client to Vercel and the Express API to Render or Railway. The Vercel rewrite in `client/vercel.json` proxies API and asset requests to the deployed API, keeping browser authentication on the Vercel origin. Set `CLIENT_URL` on the API host to the production Vercel origin, and leave `VITE_API_URL` unset in Vercel so the client uses that proxy.
 
 ### Temporary GitHub Pages deployment
 
